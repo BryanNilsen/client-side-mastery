@@ -2,57 +2,14 @@
 
 In this chapter, you are going to learn how to use use a form to express the state of a component, and then use a function to add the animal to the API and redirect to the full animal list.
 
-**_Quick Note_:** All of the code you will see from here to the end of this chapter needs to be in place before the feature will work.
+Here's a quick rundown of what we're about to do:
+- add a POST method to AnimalManager
+- create an AnimalForm component with functionality allowing the user to input details of a new animal and submit that animal to the API using the POST method we previously added
+- add a new route in ApplicationViews to allow our app to display our AnimalForm component
+- add an "Admit Animal" button on the AnimalList component to change the route to render the AnimalForm component
+- add some styling to the form
 
-## Route for Showing Animal Form
-
-Below is a new route that renders a form for boarding a new animal. You need to update the route for `/animals` to include the `...props` argument and pass it to the child component. This sets up the ability to use the helpful `history.push()` mechanism in the components themselves to change the URL in the browser.
-
-First, update your routes in ApplicationViews with a new route for the form and add `{...props}` to the route `/animals` (**AnimalList**). The spread operator on the props gives access to the router properties, especially `history.push`
-
-Remember, you'll also have to `import` the new AnimalForm component once it's created
-
-```jsx
-import AnimalForm from './animal/AnimalForm'
-```
-
-```jsx
-// Our shiny new route.
-<Route path="/animals/new" render={(props) => {
-  return <AnimalForm {...props} />
-}} />
-```
-
-```jsx
-//updated route: `/animals`
-<Route exact path="/animals" render={(props) => {
-  return <AnimalList {...props} />
-}} />
-```
-
-
-## Add a button for Admitting a New Animal
-
-Update **`<AnimalList>`** with a button that uses the `history.push()` to change the URL of the browser. This will only work if you updated your routes correctly and have access to the router `props` object.
-
-**NOTE** You will need to wrap the return in a React.Fragment. Remember, only one element can be returned.
-
-> AnimalList.js
-
-
-```js
-//add this button above your display of animal cards
-<section className="section-content">
-  <button type="button"
-      className="btn"
-      onClick={() => {this.props.history.push("/animals/new")}}>
-      Admit Animal
-  </button>
-</section>
-```
-
-
-![add animal button](./images/add-animal.png)
+**_Quick Note_:** All of the code you will see from here to the end of this chapter needs to be in place before the feature will fully work.
 
 ## AnimalManager Method for POSTing Animal
 
@@ -69,8 +26,6 @@ post(newAnimal) {
     }).then(data => data.json())
 }
 ```
-
-
 ## AnimalForm Component
 
 Now it's time to make the **`<AnimalForm>`** component.
@@ -178,6 +133,59 @@ export default AnimalForm
 
 **NOTE** `<>` is a shortcut for React.Fragment. Be sure to close it at the bottom `</>`
 
+
+## Route for Showing Animal Form
+
+Below is a new route that renders a form for boarding a new animal. You need to update the route for `/animals` to include the `...props` argument and pass it to the child component. This sets up the ability to use the helpful `history.push()` mechanism in the components themselves to change the URL in the browser.
+
+First, update your routes in ApplicationViews with a new route for the form and add `{...props}` to the route `/animals` (**AnimalList**). The spread operator on the props gives access to the router properties, especially `history.push`
+
+Remember, you'll also have to `import` the new AnimalForm component once it's created
+
+```jsx
+import AnimalForm from './animal/AnimalForm'
+```
+
+```jsx
+// Our shiny new route.
+<Route path="/animals/new" render={(props) => {
+  return <AnimalForm {...props} />
+}} />
+```
+
+```jsx
+//updated route: `/animals`
+<Route exact path="/animals" render={(props) => {
+  return <AnimalList {...props} />
+}} />
+```
+
+
+## Add a button for Admitting a New Animal
+
+Update **`<AnimalList>`** with a button that uses the `history.push()` to change the URL of the browser. This will only work if you updated your routes correctly and have access to the router `props` object.
+
+**NOTE** You will need to wrap the return in a React.Fragment. Remember, only one element can be returned.
+
+> AnimalList.js
+
+
+```js
+//add this button above your display of animal cards
+<section className="section-content">
+  <button type="button"
+      className="btn"
+      onClick={() => {this.props.history.push("/animals/new")}}>
+      Admit Animal
+  </button>
+</section>
+```
+
+
+![add animal button](./images/admit-animal.png)
+
+
+
 > AnimalForm.css
 
 ```css
@@ -247,7 +255,7 @@ fieldset .alignRight {
 
 Once you've got all these pieces in place, click on the _Admit Animal_ button, fill out the form, and submit it. You should immediately see your new animal in the list.
 
-![animation showing animal form working](./images/yeFJQKGtiU.gif)
+![animation showing animal form working](./images/add-form-animated.gif)
 
 ## Practice: Adding Employees, Owners, and Locations
 
